@@ -1,0 +1,62 @@
+openapi: 3.0.0
+info:
+  version: '1.0'
+  title: Projeto Minha UESPI
+  description: 'REST API do Projeto Minha UESPI'
+servers:
+  - url: 'https://api.pmu.uespi.br'
+tags:
+  - name: Person
+    description: Dados pessoais da comunidade acadêmica
+paths: 
+  '/person/{cpf}/ident':
+    get:
+      tags:
+        - Person
+      summary: Obtém dados de uma pessoa
+      parameters: 
+        - name: cpf
+          in: path
+          description: CPF da pessoa
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Operação bem sucedida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ident'
+components:
+  schemas:
+    Ident:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 123456
+        enroll:
+          type: string
+          example: '1234560X'
+        quiz:
+          type: array
+          items:
+            $ref: '#/components/schemas/Question'
+    Question:
+      type: object
+      properties:
+        question:
+          type: string
+          example: 'Qual o seu mês de aniversário?'
+        options:
+          type: array
+          items:
+            type: string
+        answer:
+          type: integer
+          format: int32
+          example: 0
+
